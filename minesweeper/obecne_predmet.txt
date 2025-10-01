@@ -1,0 +1,57 @@
+http://www.cs.vsb.cz/sawa/spr/
+Seminář z programování
+Vyučující: Zdeněk Sawa (místnost: EA413, e-mail: zdenek.sawa@vsb.cz)
+Aktuální informace
+Zde se budou v průběhu semestru objevovat aktuální informace týkající se předmětu.
+Požadavky na zápočet
+V průběhu semestru budou postupně zveřejňovány na těchto stránkách čísla problémů ze serveru Online Judge, za jejichž řešení budou studenti získávat body. U jednotlivých problémů bude uvedeno, kolik bodů je za vyřešení daného problému možno získat a termín, do kterého je možné řešení daného termínu posílat. Konkrétní počty bodů za jednotlivé problémy se budou lišit podle obtížnosti daného problému.
+
+Stránka s problémy
+Řešení problémů posílejte na adresu zdenek.sawa@vsb.cz.
+
+Za řešení problému je považován program, pro který po odeslání na server onlinejudge.org dostaneme odpověď Accepted, a který navíc splňuje i další podmínky uvedené u daného problému na stránce se seznamem problémů
+
+Dále by měl každý student o vyřešených problémech stručně poreferovat vyučujícímu. Popsat zadání problému a způsob, který použil k jeho řešení, a případné obtíže při řešení problému. Rozsah by měl být max. 5 minut na jeden problém. Není nutné referovat o všech vyřešených problémech současně.
+
+Počet bodů, které student nakonec za odevzdaná řešení získá, bude definitivně stanoven až po odreferování.
+
+V případě, že bude zjištěno, že student není původním autorem odevzdaného řešení (např. ho zkopíroval od jiného studenta z letošního roku nebo z dřívějších let, zkopíroval řešení nalezené na webu, nalezené v různých fórech apod.), nejen, že mu nebudou započítány za toto řešení žádné body, ale od bodů, které již získal, mu bude odečteno 20 bodů. Pokud se podobný případ vyskytne podruhé, bude studentovi odečteno 50 bodů, a pokud se vyskytne potřetí, student nedostane zápočet, bez ohledu na to, kolik bodů celkem získal.
+
+Pozn.: Za zkopírovaný program je považován i program, který z původního zdroje vznikl jednoduchými úpravami, jako je například přejmenování identifikátorů, změna formátování, změna pořadí funkcí nebo metod ve zdrojovém kódu, vyčlenění úseků kódu do samostatných funkcí, vložení těla funkce na místo jejího volání, nepodstatné změny pořadí některých příkazů apod., které mají za cíl zamaskovat, že se jedná o zkopírovaný program.
+
+Seminář není zakončen zkouškou, studenti tedy dostanou veškeré body pouze za zápočet. Podmínkou pro získání zápočtu je získat za vyřešené problémy alespoň 51 bodů.
+
+Materiály
+Slidy (verze ze dne 16. 9. 2025): spr.pdf
+Ukázky programů
+Náplň semináře
+Cílem semináře je prohloubit znalosti studentů v oblasti návrhu, analýzy a implementace algoritmů, a seznámit je se základními metodami návrhu algoritmů (dynamické programování, greedy algoritmy, backtracking, ...) a s některými algoritmy z různých oblastí jako jsou teorie grafů, teorie čísel, kombinatorika, teorie her a výpočetní geometrie. Důraz bude kladen na návrh co nejefektivnějších algoritmů z hlediska výpočetní složitosti a na co nejefektivnější implementaci těchto algoritmů.
+
+Předběžný program semináře:
+
+Úvod. Časová složitost. Asymptotická notace
+Rekurzivní algoritmy
+Dynamické programování
+Greedy algoritmy
+Grafové algoritmy
+Kombinatorika
+Teorie čísel
+Výpočetní geometrie
+Soutěž v programování
+Jedním z cílů semináře je připravit studenty na účast v soutěži v programování International Collegiate Programming Contest (ICPC).
+
+Zadání problémů z různých dřívějších kol této soutěže naleznete např. na následující adrese (jsou tam zveřejněna i ukázková řešení a testovací data):
+
+http://contest.felk.cvut.cz/
+Na onlinejudge.org je zveřejněno velké množství problémů (řádově několi tisíc). Na tomto serveru běží systém pro vyhodnocování řešení problémů podobné těm, které se používají při soutěžích. Libovolný uživatel se může zaregistrovat a posílat svá řešení problémů, přičemž mu systém vrátí odpověď, zda jeho řešení bylo přijato nebo ne.
+
+Účastníci semináře by se měli zaregistrovat se na tento server a pokoušet se samostatně řešit různé problémy zde zveřejněné. Navíc celá řada problémů diskutovaných na semináři budou právě problémy z tohoto serveru.
+
+Literatura
+Skiena, S. S., Revilla, M. A.: Programming Challenges: The Programming Contest Training Manual, Springer, 2003.
+Cormen, T. H., Leiserson, R. L., Rivest, R. L., Stein, C.: Introduction to Algorithms, MIT Press 2001.
+Dasgupta, S., Papadimitriou, C., Vazirani, U.: Algorithms, McGraw-Hill Science/Engineering/Math, 2006.
+Matoušek, J., Nešetřil, J.: Kapitoly z diskrétní matematiky, Karolinum, 2002.
+Sedgewick, R.: Algoritmy v C, SoftPress s.r.o., 2003.
+Wirth, N.: Algoritmy a štruktúry údajov, Alfa, Bratislava 1989.
+Zpět
