@@ -62,7 +62,7 @@ public:
 };
 
 bool Attack::pawnThreat(const Board& b, Position k, Color opp) {
-    int dr = (opp == Color::WHITE) ? -1 : 1;
+    int dr = (opp == Color::WHITE) ? 1 : -1;
     Position dc1 = {k.row + dr, k.col - 1};
     Position dc2 = {k.row + dr, k.col + 1};
 
@@ -111,6 +111,7 @@ bool Attack::rayThreat(const Board& b, Position k, int dr, int dc, Color opp, Pi
     return false;
 }
 
+
 bool Attack::kingAdjThreat(const Board& b, Position k, Color opp) {
     for (int dr=-1; dr<=1; ++dr) for (int dc=-1; dc<=1; ++dc) if (dr||dc) {
         Position p = {k.row+dr, k.col+dc};
@@ -126,7 +127,7 @@ bool Board::isKingInCheck(Color c, Position king_position) const {
 
     if (Attack::pawnThreat( *this, king_position, opp)) return true;
     if (Attack::knightThreat(*this, king_position, opp)) return true;
-    if (Attack::kingAdjThreat(*this, king_position, opp)) return true;
+   // if (Attack::kingAdjThreat(*this, king_position, opp)) return true;
 
     static const int D[4][2] = {{+1,+1},{+1,-1},{-1,+1},{-1,-1}};
     static const int O[4][2] = {{+1,0},{-1,0},{0,+1},{0,-1}};
