@@ -9,7 +9,7 @@
 using namespace std;
 
 
-// =========== Domenova vrstva =================
+
 class Field {
 private:
     int n;

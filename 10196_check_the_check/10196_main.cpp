@@ -58,7 +58,6 @@ public:
     static bool knightThreat(const Board& b, Position k, Color opp);
     static bool rayThreat   (const Board& b, Position k, int dr, int dc,
                              Color opp, PieceType t1, PieceType t2);
-    static bool kingAdjThreat(const Board& b, Position k, Color opp);
 };
 
 bool Attack::pawnThreat(const Board& b, Position k, Color opp) {
@@ -112,22 +111,14 @@ bool Attack::rayThreat(const Board& b, Position k, int dr, int dc, Color opp, Pi
 }
 
 
-bool Attack::kingAdjThreat(const Board& b, Position k, Color opp) {
-    for (int dr=-1; dr<=1; ++dr) for (int dc=-1; dc<=1; ++dc) if (dr||dc) {
-        Position p = {k.row+dr, k.col+dc};
-        if (!b.inBound(p)) continue;
-        const Element& e = b.at(p);
-        if (e.isOccupied() && e.getColor()==opp && e.getPieceType()==PieceType::KING) return true;
-    }
-    return false;
-}
-
+// reseni z pohledu krale -> kontroluju mozne hrozby vzhledem k druhum figurek
+// O(1) + O(1) + O(n) = O(n) pro kotroly
 bool Board::isKingInCheck(Color c, Position king_position) const {
     const Color opp = (c==Color::WHITE ? Color::BLACK : Color::WHITE);
 
     if (Attack::pawnThreat( *this, king_position, opp)) return true;
     if (Attack::knightThreat(*this, king_position, opp)) return true;
-   // if (Attack::kingAdjThreat(*this, king_position, opp)) return true;
+
 
     static const int D[4][2] = {{+1,+1},{+1,-1},{-1,+1},{-1,-1}};
     static const int O[4][2] = {{+1,0},{-1,0},{0,+1},{0,-1}};
@@ -158,6 +149,7 @@ public:
 Game::Game(int bs) : boardSize(bs),  whiteKing({-1, -1}), blackKing({-1, -1}) {
 }
 
+// O(n) + O(n) = O(n^2) pro nacitani dat
 bool Game::readInput(std::istream &is, Board &b, bool &allDots) {
     std::string line;
     int row = 0;
@@ -208,7 +200,7 @@ void Game::run(std::istream &is, std::ostream &os) {
         Board b(boardSize);
         bool allDots = true;
 
-        if (!readInput(is, b, allDots)) return; // EOF / chyba
+        if (!readInput(is, b, allDots)) return;
         if (allDots) return;
 
         const bool whiteInCheck = b.isKingInCheck(Color::WHITE, whiteKing);
