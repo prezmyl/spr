@@ -67,7 +67,7 @@ bool seat_all_teams_Greedy(const std::vector<int>& teamSizes,
 
 
     for (std::size_t t = 0; t < teams.size(); ++t) {
-        const int need = teams[t].size;
+        const int need = teams[t].size; //pocet lidi v aktualn tymu -> tolik mist potrebuju priradit && kolik stolu potrebuju -> kazdy z nich potrebuje jiny stul
         const int originalIndex = teams[t].originalIndex;
 
 
