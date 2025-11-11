@@ -167,8 +167,8 @@ public:
             w.line("readln(" + PascalHeader::joinVars(vars) + ");");
 
 
-            MetaSort gen(w, vars);
-            gen.generate_meta_sort();
+            MetaSort ms(w, vars);
+            ms.generate_meta_sort();
 
 
             w.line("end.");
