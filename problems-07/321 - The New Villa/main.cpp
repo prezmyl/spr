@@ -182,7 +182,7 @@ private:
 
 
     //orchestrace
-    int solve_bfs_shortest_path(const House& h, const State& s, std::vector<Action>& path) {
+    bool solve_bfs_shortest_path(const House& h, const State& s, std::vector<Action>& path) {
         using Key = std::pair<int, int>; //room, mask(lights)
         std::map<Key, Key> parent;
         std::map<Key, Action> how;
@@ -194,11 +194,11 @@ private:
         int start_mask = s.to_mask();
         int goal_room = h.room_count() - 1; // posledni v poli je cil
 
-        Key startKey(start_room, start_mask);
-        Key goalKey(-1, -1);
+        Key start_key(start_room, start_mask);
+        Key goal_key(-1, -1);
 
         q.push(s);
-        visited.insert(startKey);
+        visited.insert(start_key);
 
         bool found = false;
 
@@ -212,7 +212,7 @@ private:
 
             if (is_goal_state(cur, goal_room)) {
                 found = true;
-                goalKey = curKey;
+                goal_key = curKey;
                 break;
             }
 
@@ -239,11 +239,11 @@ private:
 
         if (!found) return false;
 
-        // Rekonstrukce cesty z parent + how: goalKey -> startKey
+        // Rekonstrukce cesty z parent + how: goal_key -> start_key
         std::vector<Action> reversed;
-        Key k = goalKey;
+        Key k = goal_key;
 
-        while (k != startKey) {
+        while (k != start_key) {
             Action a = how[k];
             reversed.push_back(a);
             k = parent[k];
