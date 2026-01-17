@@ -1,43 +1,74 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <vector>
 
-
+//DATA
+//vertaices
 class City {
 private:
-    std::string name;
-    float latitude;
-    float longitude;
+    std::string name_;
+    double latitude_;
+    double longitude_;
 
 public:
-    City(std::string name, float latitude, float longitude) : name(name), latitude(latitude), longitude(longitude) {}
-    std::string get_name() { return name; }
-    float get_latitude() { return latitude; }
-    float get_longitude() { return longitude; }
+    City(std::string name_, double latitude_, double longitude_) : name_(name_), latitude_(latitude_), longitude_(longitude_) {}
+    const std::string get_name() { return name_; }
+    double get_latitude() { return latitude_; }
+    double get_longitude() { return longitude_; }
 };
 
-class Route {
+//catalog mest
+class CityRepository {
 private:
-    std::vector<City> cities;
-    std::map<std::pair<City,City>,int> ortodromas;
-    bool directRoute = false;
-
-    int ortodroma;
-    int count_ortodroma() {
-        const float pi = 3.141592653589793;
-        int earthRadius = 6378;
-    };
-
+    std::vector<City> cities_;
+    std::unordered_map<std::string, int> nameToId_;
 public:
-    Route(std::vector<City> cities) : cities(cities) {
-        if (this->cities.size() == 2) { this->directRoute = true; }
+    CityRepository() {}
+    int id_of(const std::string& name_) const {}
+    const City& city(int index) const { return cities_[index]; }
+    int sizeCity() const { return cities_.size(); }
+    void add_city(std::string name_, double latitude_, double longitude_) {
+        City city(name_, latitude_, longitude_);
+        cities_.push_back(city);
 
     }
-    std::vector<City> get_cities() { return cities; }
-    bool is_direct_route() { return directRoute; }
 };
 
+//Algorithms/services
+class WeightedGraph {
+private:
+    std::vector<std::vector<int>> adj_;
+    int calculate_weight_() { //ortodromas
+
+    }
+
+public:
+    WeightedGraph() {}
+    void add_edge(int u, int v) {
+        adj_[u].push_back(v);
+        adj_[v].push_back(u);
+    }
+    int dijkstra(int source, int target) {}
+};
+
+//orchastrate/facade
+class AirlineNetworkApp {
+private:
+    static int read_inpout(std::istream& in) {};
+    int print_output(std::ostream& out) {};
+
+public:
+    void run(std::istream& in, std::ostream& out) {
+
+    }
+
+};
+
+
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    AirlineNetworkApp app;
+    app.run(std::cin, std::cout);
+
     return 0;
 }
