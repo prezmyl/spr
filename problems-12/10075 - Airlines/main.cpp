@@ -1,6 +1,8 @@
 #include <iostream>
+#include <limits.h>
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 
 //DATA
 //vertaices
@@ -12,43 +14,69 @@ private:
 
 public:
     City(std::string name_, double latitude_, double longitude_) : name_(name_), latitude_(latitude_), longitude_(longitude_) {}
-    const std::string get_name() { return name_; }
-    double get_latitude() { return latitude_; }
-    double get_longitude() { return longitude_; }
+    const std::string& get_name() const { return name_; }
+    double get_latitude() const { return latitude_; }
+    double get_longitude() const  { return longitude_; }
 };
 
 //catalog mest
 class CityRepository {
 private:
-    std::vector<City> cities_;
-    std::unordered_map<std::string, int> nameToId_;
+    std::vector<City> cities_; // pristup O(1) pres index
+    std::unordered_map<std::string, int> nameToId_; // O(1) hledani jmena
 public:
     CityRepository() {}
-    int id_of(const std::string& name_) const {}
+    int id_of(const std::string& name_) const {
+        auto it = nameToId_.find(name_);
+        if (it == nameToId_.end()) { return -1; }
+        return it->second;
+    }
     const City& city(int index) const { return cities_[index]; }
-    int sizeCity() const { return cities_.size(); }
-    void add_city(std::string name_, double latitude_, double longitude_) {
-        City city(name_, latitude_, longitude_);
-        cities_.push_back(city);
+    int size() const { return cities_.size(); }
+    int add_city(std::string name_, double latitude_, double longitude_) {
+        auto it = nameToId_.find(name_);
+        if (it == nameToId_.end()) {
+            City city(name_, latitude_, longitude_);
+            cities_.push_back(city);
+            nameToId_[name_] = cities_.size() - 1;
 
+            return cities_.size() - 1;
+        }
+
+        return it->second;
     }
 };
 
 //Algorithms/services
+class GeoDistanceCalculator {
+public:
+    int distance_km(const City& a, const City& b) const {
+        double pi = 3.141592653589793;
+        int earthRadius = 6378;
+    }
+};
+
+
 class WeightedGraph {
 private:
-    std::vector<std::vector<int>> adj_;
-    int calculate_weight_() { //ortodromas
-
-    }
+    std::vector<std::vector<int>> dist_;
 
 public:
-    WeightedGraph() {}
-    void add_edge(int u, int v) {
-        adj_[u].push_back(v);
-        adj_[v].push_back(u);
+    WeightedGraph(int n) {
+        const int INF = 1000000000;
+        dist_.assign(n, std::vector<int>(n, INF));
+        for (int i = 0; i < n; i++) {
+            dist_[i][i] = 0;
+        }
     }
-    int dijkstra(int source, int target) {}
+    void add_edge(int u, int v, int w) {
+        dist_[u][v] = std::min(dist_[u][v], w);
+        dist_[v][u] = std::min(dist_[v][u], w);
+
+    }
+    void compute_all_pairs() {
+
+    }
 };
 
 //orchastrate/facade
@@ -63,7 +91,6 @@ public:
     }
 
 };
-
 
 
 int main() {
