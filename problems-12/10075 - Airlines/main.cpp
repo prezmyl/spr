@@ -47,7 +47,7 @@ public:
     }
 };
 
-//Algorithms/services
+//Services/Algorithms
 class GeoDistanceCalculator {
 public:
     int distance_km(const City& a, const City& b) const {
@@ -60,10 +60,11 @@ public:
 class WeightedGraph {
 private:
     std::vector<std::vector<int>> dist_;
+    const int INF = 1000000000;
 
 public:
     WeightedGraph(int n) {
-        const int INF = 1000000000;
+
         dist_.assign(n, std::vector<int>(n, INF));
         for (int i = 0; i < n; i++) {
             dist_[i][i] = 0;
@@ -75,7 +76,15 @@ public:
 
     }
     void compute_all_pairs() {
-
+        int n = dist_.size();
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist_[i][k] == INF || dist_[k][j] == INF) {continue;}
+                    dist_[i][j] = std::min( dist_[i][j] ,dist_[i][k] + dist_[k][j]);
+                }
+            }
+        }
     }
 };
 
