@@ -13,7 +13,7 @@ private:
     double longitude_;
 
 public:
-    City(std::string name_, double latitude_, double longitude_) : name_(name_), latitude_(latitude_), longitude_(longitude_) {}
+    City(const std::string name, double latitude, double longitude) : name_(name), latitude_(latitude), longitude_(longitude) {}
     const std::string& get_name() const { return name_; }
     double get_latitude() const { return latitude_; }
     double get_longitude() const  { return longitude_; }
@@ -33,12 +33,12 @@ public:
     }
     const City& city(int index) const { return cities_[index]; }
     int size() const { return cities_.size(); }
-    int add_city(std::string name_, double latitude_, double longitude_) {
-        auto it = nameToId_.find(name_);
+    int add_city(const std::string name, double latitude, double longitude) {
+        auto it = nameToId_.find(name);
         if (it == nameToId_.end()) {
-            City city(name_, latitude_, longitude_);
+            City city(name, latitude, longitude);
             cities_.push_back(city);
-            nameToId_[name_] = cities_.size() - 1;
+            nameToId_[name] = cities_.size() - 1;
 
             return cities_.size() - 1;
         }
@@ -72,7 +72,7 @@ public:
     }
     void add_edge(int u, int v, int w) {
         dist_[u][v] = std::min(dist_[u][v], w);
-        dist_[v][u] = std::min(dist_[v][u], w);
+       // dist_[v][u] = std::min(dist_[v][u], w);
 
     }
     void compute_all_pairs() {
@@ -91,12 +91,33 @@ public:
 //orchastrate/facade
 class AirlineNetworkApp {
 private:
-    static int read_inpout(std::istream& in) {};
+    static bool read_case(std::istream& in, CityRepository& repo, int &n, int &m, int &q) {
+        in >> n >> m  >> q;
+        for (int i = 0; i < n; i++) {
+            std::string s;
+            double latitude, longitude;
+
+            in >> s >> latitude >> longitude;
+            repo.add_city(s, latitude, longitude);
+        }
+
+        for (int i = 0; i < m; i++) {
+            std::string s1, s2;
+
+        }
+
+    };
     int print_output(std::ostream& out) {};
 
 public:
     void run(std::istream& in, std::ostream& out) {
+        int n, m, q;
+        CityRepository repo;
+        while (read_case(in, repo, n, m, q)) {
 
+            GeoDistanceCalculator calc;
+            WeightedGraph graph(n);
+        }
     }
 
 };
