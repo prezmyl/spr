@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 //DATA
 //vertaices
@@ -49,11 +50,33 @@ public:
 
 //Services/Algorithms
 class GeoDistanceCalculator {
+
 public:
     int distance_km(const City& a, const City& b) const {
-        double pi = 3.141592653589793;
-        int earthRadius = 6378;
+        const double pi = 3.141592653589793;
+        const int R = 6378;
+        auto toRad = [&](const double deg) { return deg * pi / 180.0; };
+
+        double lat1 = toRad(a.get_latitude());
+        double lon1 = toRad(a.get_longitude());
+        double lat2 = toRad(b.get_latitude());
+        double lon2 = toRad(b.get_longitude());
+
+        double cosTheta =
+            std::sin(lat1) * std::sin(lat2) +
+            std::cos(lat1) * std::cos(lat2) * std::cos(lon1 - lon2);
+
+
+        if (cosTheta >  1.0) cosTheta =  1.0;
+        if (cosTheta < -1.0) cosTheta = -1.0;
+
+        double theta = std::acos(cosTheta);
+        double dist  = R * theta;
+
+        return static_cast<int>(std::llround(dist));
+
     }
+
 };
 
 
@@ -63,13 +86,15 @@ private:
     const int INF = 1000000000;
 
 public:
-    WeightedGraph(int n) {
+    WeightedGraph() {}
 
+    void init(int n) {
         dist_.assign(n, std::vector<int>(n, INF));
         for (int i = 0; i < n; i++) {
             dist_[i][i] = 0;
         }
     }
+
     void add_edge(int u, int v, int w) {
         dist_[u][v] = std::min(dist_[u][v], w);
        // dist_[v][u] = std::min(dist_[v][u], w);
@@ -86,37 +111,89 @@ public:
             }
         }
     }
+    int distance(int u, int v) const { return dist_[u][v]; }
+    int inf() const { return INF; }
+};
+
+//userCase object -> + factory reseni bootstrap problemu inicializace obejktu
+struct CaseData {
+    int n = 0, m =0, q = 0;
+    std::vector<std::pair<int,int>> queries;
+    CityRepository repo;
+    WeightedGraph graph;
+
+
 };
 
 //orchastrate/facade
 class AirlineNetworkApp {
 private:
-    static bool read_case(std::istream& in, CityRepository& repo, int &n, int &m, int &q) {
+    static bool read_case(std::istream& in, CaseData*& data) {
+        int n, m, q;
         in >> n >> m  >> q;
+        if (n == 0 && m == 0 && q == 0) return false;
+
+        CaseData* c = new CaseData();
+
+        //Cities
         for (int i = 0; i < n; i++) {
             std::string s;
             double latitude, longitude;
 
             in >> s >> latitude >> longitude;
-            repo.add_city(s, latitude, longitude);
+            c->repo.add_city(s, latitude, longitude);
         }
 
+        c->graph.init(n);
+        GeoDistanceCalculator calc;
+        //Direct flights
         for (int i = 0; i < m; i++) {
             std::string s1, s2;
-
+            in >> s1 >> s2;
+            int u = c->repo.id_of(s1), v = c->repo.id_of(s2);
+            int w = calc.distance_km(c->repo.city(u), c->repo.city(v));
+            c->graph.add_edge(u, v, w);
         }
 
+        //Queries
+        for (int i = 0; i < q; i++) {
+            std::string s1, s2;
+            in >> s1 >> s2;
+            int  departure_idx = c->repo.id_of(s1), arrivle_idx = c->repo.id_of(s2);
+            c->queries.push_back(std::make_pair(departure_idx, arrivle_idx));
+        }
+
+        data = c;
+        return true;
+    }
+    void print_result(std::ostream& out, CaseData& data, int caseNo) {
+        out << "Case #" << caseNo << "\n";
+
+        for (int i = 0; i < data.queries.size(); i++) {
+            int u = data.queries[i].first;
+            int v = data.queries[i].second;
+
+            int d = data.graph.distance(u, v);
+            if (d >= data.graph.inf()) { out << "no route exists\n";}
+            else out << d << " km\n";
+        }
     };
-    int print_output(std::ostream& out) {};
+
 
 public:
     void run(std::istream& in, std::ostream& out) {
-        int n, m, q;
-        CityRepository repo;
-        while (read_case(in, repo, n, m, q)) {
+        bool first = true;
+        int caseNo = 1;
 
-            GeoDistanceCalculator calc;
-            WeightedGraph graph(n);
+        CaseData* data;
+        while (read_case(in, data)) {
+            data->graph.compute_all_pairs();
+
+            if (!first) { out << "\n"; }
+            first = false;
+            print_result(out, *data, caseNo);
+            caseNo++;
+            delete data;
         }
     }
 
